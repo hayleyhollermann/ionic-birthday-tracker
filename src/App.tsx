@@ -3,6 +3,9 @@ import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/react';
 import { calendar, add } from 'ionicons/icons';
 import { IonReactRouter } from '@ionic/react-router';
+import { Provider } from "mobx-react";
+import { create } from "mobx-persist";
+import { BirthdayStore } from "./pages/BirthdayStore";
 import Home from './pages/Home';
 import Add from './pages/Add';
 
@@ -25,39 +28,51 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
-const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route
-            path="/birthdays"
-            component={Home}
-            exact={true}
-          />
-          <Route
-            path="/add"
-            component={Add}
-            exact={true}
-          />
-          <Route
-            exact path="/"
-            render={() => <Redirect to="/home" />}
-          />
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="birthdays" href="/birthdays">
-            <IonIcon icon={calendar} />
-            <IonLabel>Birthdays</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="add" href="/add">
-            <IonIcon icon={add} />
-            <IonLabel>Add Birthday</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
-);
+const App: React.FC = () => {
+
+  const hydrate = create({});
+  const birthdayStore = new BirthdayStore();
+
+  // on page load, mobx-persist loads up the previously saved state of the store from localStorage
+  hydrate("BirthdayStore", birthdayStore);
+
+  return (
+    <IonApp>
+      <Provider birthdayStore={birthdayStore}>
+        <IonReactRouter>
+          <IonTabs>
+            <IonRouterOutlet>
+              <Route
+                path="/birthdays"
+                component={Home}
+                exact={true}
+              />
+              <Route
+                path="/add"
+                component={Add}
+                exact={true}
+              />
+              <Route
+                exact path="/"
+                render={() => <Redirect to="/home" />}
+              />
+            </IonRouterOutlet>
+            <IonTabBar slot="bottom">
+              <IonTabButton tab="birthdays" href="/birthdays">
+                <IonIcon icon={calendar} />
+                <IonLabel>Birthdays</IonLabel>
+              </IonTabButton>
+              <IonTabButton tab="add" href="/add">
+                <IonIcon icon={add} />
+                <IonLabel>Add Birthday</IonLabel>
+              </IonTabButton>
+            </IonTabBar>
+          </IonTabs>
+        </IonReactRouter>
+      </Provider>
+    </IonApp>
+  );
+
+};
 
 export default App;
