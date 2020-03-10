@@ -1,8 +1,10 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet } from '@ionic/react';
+import { IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel } from '@ionic/react';
+import { calendar, add } from 'ionicons/icons';
 import { IonReactRouter } from '@ionic/react-router';
 import Home from './pages/Home';
+import Add from './pages/Add';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -26,10 +28,34 @@ import './theme/variables.css';
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonRouterOutlet>
-        <Route path="/home" component={Home} exact={true} />
-        <Route exact path="/" render={() => <Redirect to="/home" />} />
-      </IonRouterOutlet>
+      <IonTabs>
+        <IonRouterOutlet>
+          <Route
+            path="/birthdays"
+            component={Home}
+            exact={true}
+          />
+          <Route
+            path="/add"
+            component={Add}
+            exact={true}
+          />
+          <Route
+            exact path="/"
+            render={() => <Redirect to="/home" />}
+          />
+        </IonRouterOutlet>
+        <IonTabBar slot="bottom">
+          <IonTabButton tab="birthdays" href="/birthdays">
+            <IonIcon icon={calendar} />
+            <IonLabel>Birthdays</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="add" href="/add">
+            <IonIcon icon={add} />
+            <IonLabel>Add Birthday</IonLabel>
+          </IonTabButton>
+        </IonTabBar>
+      </IonTabs>
     </IonReactRouter>
   </IonApp>
 );
