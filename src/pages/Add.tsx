@@ -27,14 +27,14 @@ const Add: React.FC<HomeProps> = ({ birthdayStore }) => {
                 <IonList>
                     <IonItemDivider>Name</IonItemDivider>
                     <IonItem>
-                        <IonInput />
+                        <IonInput type="text"/>
                     </IonItem>
                     <IonItemDivider>Birthday</IonItemDivider>
                     <IonItem>
-                        <IonInput />
+                        <IonInput type="date"/>
                     </IonItem>
                 </IonList>
-                <IonButton>Add</IonButton>
+                <IonButton expand="block">Add</IonButton>
             </IonContent>
         </IonPage>
     );
