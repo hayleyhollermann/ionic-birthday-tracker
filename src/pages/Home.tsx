@@ -1,15 +1,42 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React from 'react';
-import ExploreContainer from '../components/ExploreContainer';
-import './Home.css';
+
+import React, { useState } from "react";
+import { inject, observer } from "mobx-react";
+import { trash as trashIcon } from "ionicons/icons";
+import {
+  IonContent,
+  IonPage,
+  IonList,
+  IonItem,
+  IonLabel,
+  IonAvatar,
+  IonItemSliding,
+  IonItemOptions,
+  IonItemOption,
+  IonIcon,
+  IonAlert,
+  IonImg,
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+} from "@ionic/react";
 
 import { BirthdayStore } from "./BirthdayStore";
 
 type HomeProps = {
-  birthdayStore: BirthdayStore,
+  birthdayStore: BirthdayStore;
 };
 
-const Home: React.FC<HomeProps> = ({ birthdayStore }) => { 
+const printDate = (date: Date | string): string => {
+  if (typeof date === "string") {
+    date = new Date(date);
+  }
+  return date.toLocaleDateString();
+};
+
+const Home: React.FC<HomeProps> = ({ birthdayStore }) => {
+
+  const [removingBirthdayId, setRemovingBirthdayId] = useState<number>(0);
+
 
   return (
     <IonPage>
@@ -24,10 +51,30 @@ const Home: React.FC<HomeProps> = ({ birthdayStore }) => {
             <IonTitle size="large">Birthdays</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <ExploreContainer />
+        <IonList>
+          {birthdayStore.entries.map(birthday => (
+            <IonItemSliding key={birthday.id}>
+              <IonItem>
+                <IonLabel>
+                  <h3>{printDate(birthday.date)}</h3>
+                  <p>{birthday.name || "No Details"}</p>
+                </IonLabel>
+              </IonItem>{" "}
+              <IonItemOptions side="end">
+                <IonItemOption
+                  color="danger"
+                  // onClick={() => setRemovingBirthdayId(birthday.id)}
+                >
+                  <IonIcon icon={trashIcon} />
+                </IonItemOption>
+              </IonItemOptions>
+            </IonItemSliding>
+          ))}
+        </IonList>
+        {JSON.stringify(birthdayStore)}
       </IonContent>
     </IonPage>
   );
 };
 
-export default Home;
+export default inject("birthdayStore")(observer(Home));

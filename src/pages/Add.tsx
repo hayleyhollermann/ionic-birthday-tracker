@@ -6,11 +6,11 @@ import './Home.css';
 
 import { BirthdayStore } from "./BirthdayStore";
 
-type HomeProps = {
+type AddProps = {
     birthdayStore: BirthdayStore,
 };
 
-const Add: React.FC<HomeProps> = ({ birthdayStore }) => {
+const Add: React.FC<AddProps> = ({ birthdayStore }) => {
 
     const [values, setValues] = React.useState({ name: "", birthdate: new Date() } as any);
 
