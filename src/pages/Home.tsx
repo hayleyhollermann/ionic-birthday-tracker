@@ -8,13 +8,11 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonAvatar,
   IonItemSliding,
   IonItemOptions,
   IonItemOption,
   IonIcon,
   IonAlert,
-  IonImg,
   IonHeader,
   IonToolbar,
   IonTitle,
@@ -27,9 +25,11 @@ type HomeProps = {
 };
 
 const printDate = (date: Date | string): string => {
+  // ensures correct format for date
   if (typeof date === "string") {
     date = new Date(date);
   }
+  // prints date according to users location
   return date.toLocaleDateString();
 };
 
@@ -40,6 +40,27 @@ const Home: React.FC<HomeProps> = ({ birthdayStore }) => {
 
   return (
     <IonPage>
+      <IonAlert
+        isOpen={removingBirthdayId > 0}
+        onDidDismiss={() => setRemovingBirthdayId(0)}
+        header={"Remove Birthday?"}
+        message={`Sure you want to remove birthday?`}
+        buttons={[
+          {
+            text: "Cancel",
+            role: "cancel",
+            cssClass: "secondary",
+            handler: () => setRemovingBirthdayId(0)
+          },
+          {
+            text: "Yes, Remove It",
+            handler: () => {
+              birthdayStore.remove(removingBirthdayId);
+              setRemovingBirthdayId(0);
+            }
+          }
+        ]}
+      />
       <IonHeader>
         <IonToolbar>
           <IonTitle>Birthdays</IonTitle>
@@ -52,6 +73,7 @@ const Home: React.FC<HomeProps> = ({ birthdayStore }) => {
           </IonToolbar>
         </IonHeader>
         <IonList>
+          {/* maps through to print out all birthdays */}
           {birthdayStore.entries.map(birthday => (
             <IonItemSliding key={birthday.id}>
               <IonItem>
