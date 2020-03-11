@@ -63,7 +63,7 @@ const Home: React.FC<HomeProps> = ({ birthdayStore }) => {
               <IonItemOptions side="end">
                 <IonItemOption
                   color="danger"
-                  // onClick={() => setRemovingBirthdayId(birthday.id)}
+                  onClick={() => setRemovingBirthdayId(birthday.id)}
                 >
                   <IonIcon icon={trashIcon} />
                 </IonItemOption>
@@ -71,7 +71,7 @@ const Home: React.FC<HomeProps> = ({ birthdayStore }) => {
             </IonItemSliding>
           ))}
         </IonList>
-        {JSON.stringify(birthdayStore)}
+        {/* {JSON.stringify(birthdayStore)} */}
       </IonContent>
     </IonPage>
   );
