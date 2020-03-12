@@ -27,10 +27,11 @@ type HomeProps = {
 const printDate = (date: Date | string): string => {
   // ensures correct format for date
   if (typeof date === "string") {
+    console.log("Date string is: ", date)
     date = new Date(date);
   }
   // prints date according to users location
-  return date.toLocaleDateString();
+  return date.toLocaleDateString('en-US', {timeZone: 'UTC'});
 };
 
 const Home: React.FC<HomeProps> = ({ birthdayStore }) => {
