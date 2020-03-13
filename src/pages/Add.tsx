@@ -17,7 +17,7 @@ const Add: React.FC<AddProps> = ({ birthdayStore }) => {
     const addBirthday = async() => {
         console.log('In add birthday function', values.name, values.birthdate)
         birthdayStore.save(values.name, values.birthdate);
-        // setShowMoodLoggedToast(true);
+        setValues({ name: "", birthdate: new Date() })
     }
 
     return (
